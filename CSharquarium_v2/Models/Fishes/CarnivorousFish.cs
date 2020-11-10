@@ -11,7 +11,8 @@ namespace CSharquarium_v2.Models.Fishes
 
         public void Eat(Fish fish)
         {
-
+            AddPV(4);
+            fish.RemovePV(5);
         }
     }
 }

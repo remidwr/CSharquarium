@@ -2,6 +2,7 @@
 using CSharquarium_v2.Models.Seaweeds;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace CSharquarium_v2.Models
 {
@@ -20,90 +21,119 @@ namespace CSharquarium_v2.Models
             Seaweeds.Add(seaweed);
         }
 
-        private void DisplayFishes()
+        public string Action()
         {
-            Console.WriteLine("Fishes into the aquarium : ");
-            foreach (Fish fish in Fishes)
-            {
-                Console.WriteLine($"{fish.Name} - {fish.Sex}");
-            }
+            StringBuilder actions = new StringBuilder("");
+            UpdateStatus();
+            actions.Append(Eating());
+            actions.Append(Clean(Fishes));
+            return actions.ToString();
         }
 
-        private void DisplaySeaweed()
+        private string Eating()
         {
-            Console.WriteLine("Seaweed into the aquarium : ");
-            foreach (Seaweed seaweed in Seaweeds)
-            {
-                Console.WriteLine(seaweed.ToString());
-            }
-        }
+            StringBuilder actions = new StringBuilder("");
 
-        private void Display()
-        {
-            DisplaySeaweed();
-            Console.WriteLine();
-            DisplayFishes();
-        }
+            List<Fish> FishesTemp = Fishes;
 
-        private void Manger()
-        {
             for (int i = 0; i < Fishes.Count; i++)
             {
-                List<Fish> FishesTemp = Fishes;
-
                 Fish CurrentFish = FishesTemp[i];
                 Random Rng = new Random();
                 Fish RandomFish = FishesTemp[Rng.Next(FishesTemp.Count)];
 
-                if (CurrentFish is CarnivorousFish)
+                if (CurrentFish.PV <= 5)
                 {
-                    while (CurrentFish == RandomFish)
+                    if (CurrentFish is CarnivorousFish)
                     {
-                        RandomFish = FishesTemp[Rng.Next(FishesTemp.Count)];
-                    }
+                        while (CurrentFish == RandomFish || CurrentFish.GetType() == RandomFish.GetType())
+                        {
+                            RandomFish = FishesTemp[Rng.Next(FishesTemp.Count)];
+                        }
 
-                    if (FishesTemp.Contains(RandomFish))
+                        ((CarnivorousFish)CurrentFish).Eat(RandomFish);
+                        actions.Append($"{CurrentFish.Name} ate {RandomFish.Name} !\n");
+                    }
+                    else if (Seaweeds.Count > 0)
                     {
-                        FishesTemp.Remove(RandomFish);
-                        //((CarnivorousFish)CurrentFish).Eat(RandomFish);
-                        Console.WriteLine($"{CurrentFish.Name} ate {RandomFish.Name}.");
+                        Seaweed seaweed = Seaweeds[Rng.Next(Seaweeds.Count)];
+                        ((HerbivorousFish)CurrentFish).Eat(seaweed);
+                        actions.Append($"{CurrentFish.Name} ate seaweed !\n");
                     }
                 }
-                else if (Seaweeds.Count > 0)
+            }
+
+            Fishes = FishesTemp;
+            return actions.ToString();
+        }
+
+        public string Clean(List<Fish> fishes)
+        {
+            List<Fish> FishesTemp = fishes;
+            List<Seaweed> SeaweedsTemp = Seaweeds;
+
+            StringBuilder cleaning = new StringBuilder("");
+            for (int i = 0; i < FishesTemp.Count; i++)
+            {
+                Fish fish = FishesTemp[i];
+                if (fish.PV == 0)
                 {
-                    Seaweed seaweed = Seaweeds[Rng.Next(Seaweeds.Count)];
-                    Seaweeds.Remove(seaweed);
-                    //((HerbivorousFish)CurrentFish).Eat(seaweed);
-                    Console.WriteLine($"{CurrentFish.Name} ate {seaweed.ToString()}");
+                    cleaning.Append($"{fish.Name} is dead !\n");
+                    fishes.Remove(fish);
                 }
+            }
+            for (int i = 0; i < SeaweedsTemp.Count; i++)
+            {
+                Seaweed seaweed = Seaweeds[i];
+                if (seaweed.PV == 0)
+                {
+                    cleaning.Append("A seaweed is dead !\n");
+                    Seaweeds.Remove(seaweed);
+                }
+            }
+
+            return cleaning.ToString();
+        }
+
+        public void UpdateStatus()
+        {
+            for (int i = 0; i < Fishes.Count; i++)
+            {
+                Fishes[i].RemovePV(1);
+            }
+            for (int i = 0; i < Seaweeds.Count; i++)
+            {
+                Seaweeds[i].AddPV(1);
             }
         }
 
-        public void SpendTime()
+        public override string ToString()
         {
-            string Continue;
-            int Day = 1;
-
-            do
+            string Result = "";
+            Result += "Seaweed :\n";
+            if (Seaweeds.Count > 0)
             {
-                Console.WriteLine($"Day {Day} : \n");
-
-                Display();
-                Console.WriteLine();
-                Manger();
-
-                Console.WriteLine();
-                Console.Write("Press ENTER to make a new round or press 'Q' to stop : ");
-                Continue = Console.ReadLine().ToUpper();
-                Console.WriteLine();
-
-                Day++;
-            } while (Continue != "Q" && Fishes.Count > 1);
-
-            if (Fishes.Count == 1)
-            {
-                Console.WriteLine("Only one survivor left !");
+                Result += $"\t--> {Seaweeds.Count} seaweed(s)\n";
+                for (int i = 0; i < Seaweeds.Count; i++)
+                {
+                    Result += $"\t\t- Seaweed n°{i + 1} | {Seaweeds[i].ToString()}\n";
+                }
             }
+            else
+                Result += "\t--> No seaweeds into the aquarium\n";
+            Result += "Fishes :\n";
+            if (Fishes.Count > 0)
+            {
+                Result += $"\t--> {Fishes.Count} fishe(s)\n";
+                for (int i = 0; i < Fishes.Count; i++)
+                {
+                    Result += $"\t\t- Fish n°{i + 1} | {Fishes[i].ToString()}\n";
+                }
+            }
+            else
+                Result += "\t--> No fishes into the aquarium\n";
+
+            return Result;
         }
     }
 }

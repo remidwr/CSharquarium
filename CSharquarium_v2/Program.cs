@@ -3,6 +3,7 @@ using CSharquarium_v2.Models;
 using CSharquarium_v2.Models.Fishes.Carnivorous;
 using CSharquarium_v2.Models.Fishes.Herbivorous;
 using CSharquarium_v2.Models.Seaweeds;
+using System;
 
 namespace CSharquarium_v2
 {
@@ -17,13 +18,19 @@ namespace CSharquarium_v2
             Aquarium.AddFish(new ClownFish("Robertine", Sex.Female));
             Aquarium.AddFish(new Sole("Kiwi", Sex.Male));
             Aquarium.AddFish(new Bar("Nils", Sex.Male));
+            Aquarium.AddFish(new Bar("Nila", Sex.Female));
+            Aquarium.AddFish(new Bar("Alex", Sex.Male));
             Aquarium.AddFish(new Bar("Helene", Sex.Female));
             Aquarium.AddSeaweed(new Seaweed());
             Aquarium.AddSeaweed(new Seaweed());
             Aquarium.AddSeaweed(new Seaweed());
             Aquarium.AddSeaweed(new Seaweed());
 
-            Aquarium.SpendTime();
+            Console.WriteLine(Aquarium);
+            while (!Console.ReadLine().ToUpper().Equals("Q"))
+            {
+                Console.WriteLine(Aquarium.Action() + Aquarium);
+            }
         }
     }
 }
