@@ -26,7 +26,7 @@ namespace CSharquarium_v2
             Aquarium.AddSeaweed(new Seaweed());
             Aquarium.AddSeaweed(new Seaweed());
 
-            Console.WriteLine(Aquarium);
+            Console.Write(Aquarium);
 
             while (!Console.ReadLine().ToUpper().Equals("Q"))
             {

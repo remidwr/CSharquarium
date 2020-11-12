@@ -2,6 +2,7 @@
 using CSharquarium_v2.Models.Seaweeds;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace CSharquarium_v2.Models
 {
@@ -23,8 +24,20 @@ namespace CSharquarium_v2.Models
         public void Action()
         {
             UpdateStatus();
+
+            Console.WriteLine("Fishes are eating...");
+            Thread.Sleep(500);
+            Console.ForegroundColor = ConsoleColor.Green;
             DinerTime();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
+
+            Console.WriteLine("Cleaning the aquarium...");
+            Thread.Sleep(500);
+            Console.ForegroundColor = ConsoleColor.Red;
             ToClean();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
         }
 
         private void DinerTime()
