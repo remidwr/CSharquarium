@@ -14,7 +14,7 @@ namespace CSharquarium_v2
             Aquarium Aquarium = new Aquarium();
 
             Aquarium.AddFish(new Tuna("Carl", Sex.Male));
-            Aquarium.AddFish(new Grouper("Lili", Sex.Female));
+            Aquarium.AddFish(new ClownFish("Lili", Sex.Female));
             Aquarium.AddFish(new ClownFish("Robertine", Sex.Female));
             Aquarium.AddFish(new Sole("Kiwi", Sex.Male));
             Aquarium.AddFish(new Bar("Nils", Sex.Male));
@@ -27,9 +27,11 @@ namespace CSharquarium_v2
             Aquarium.AddSeaweed(new Seaweed());
 
             Console.WriteLine(Aquarium);
+
             while (!Console.ReadLine().ToUpper().Equals("Q"))
             {
-                Console.WriteLine(Aquarium.Action() + Aquarium);
+                Aquarium.Action();
+                Console.Write(Aquarium);
             }
         }
     }

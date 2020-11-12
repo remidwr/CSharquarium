@@ -8,5 +8,10 @@ namespace CSharquarium_v2.Models.Fishes.Herbivorous
             : base(name, sex)
         {
         }
+
+        public Bar(string name, Sex sex, int age)
+            : base(name, sex, age)
+        {
+        }
     }
 }

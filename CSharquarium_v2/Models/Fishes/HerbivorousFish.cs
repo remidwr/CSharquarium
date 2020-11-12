@@ -1,5 +1,7 @@
 ﻿using CSharquarium_v2.Enums;
 using CSharquarium_v2.Models.Seaweeds;
+using System;
+using System.Collections.Generic;
 
 namespace CSharquarium_v2.Models.Fishes
 {
@@ -10,10 +12,23 @@ namespace CSharquarium_v2.Models.Fishes
         {
         }
 
-        public void Eat(Seaweed seaweed)
+        protected HerbivorousFish(string name, Sex sex, int age)
+            : base(name, sex, age)
         {
-            AddPV(3);
-            seaweed.RemovePV(2);
+        }
+
+        public void Eat(Aquarium aquarium)
+        {
+            Random Rng = new Random();
+            List<Seaweed> Seaweeds = aquarium.Seaweeds;
+
+            int Random = Rng.Next(Seaweeds.Count);
+            Seaweed Seaweed = Seaweeds[Random];
+
+            Seaweed.RemovePV(2);
+            this.AddPV(3);
+
+            Console.WriteLine($"{this.Name} ate a seaweed !");
         }
     }
 }

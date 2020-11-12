@@ -1,4 +1,6 @@
 ﻿using CSharquarium_v2.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace CSharquarium_v2.Models.Fishes
 {
@@ -9,10 +11,26 @@ namespace CSharquarium_v2.Models.Fishes
         {
         }
 
-        public void Eat(Fish fish)
+        protected CarnivorousFish(string name, Sex sex, int age) : base(name, sex, age)
         {
-            AddPV(4);
-            fish.RemovePV(5);
+        }
+
+        public void Eat(Aquarium aquarium)
+        {
+            Random Rng = new Random();
+            List<Fish> Fishes = aquarium.Fishes;
+            Fish Fish;
+
+            do
+            {
+                int Random = Rng.Next(Fishes.Count);
+                Fish = Fishes[Random];
+            } while (Fish.Name.Equals(this.Name) || Fish.GetType().Equals(this.GetType()));
+
+            Fish.RemovePV(4);
+            this.AddPV(5);
+
+            Console.WriteLine($"{this.Name} ate {Fish.Name} !");
         }
     }
 }

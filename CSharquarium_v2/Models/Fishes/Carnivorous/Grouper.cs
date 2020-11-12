@@ -8,5 +8,10 @@ namespace CSharquarium_v2.Models.Fishes.Carnivorous
             : base(name, sex)
         {
         }
+
+        public Grouper(string name, Sex sex, int age)
+            : base(name, sex, age)
+        {
+        }
     }
 }

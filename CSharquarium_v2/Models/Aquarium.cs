@@ -2,14 +2,13 @@
 using CSharquarium_v2.Models.Seaweeds;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CSharquarium_v2.Models
 {
     public class Aquarium
     {
-        private List<Fish> Fishes = new List<Fish>();
-        private List<Seaweed> Seaweeds = new List<Seaweed>();
+        public List<Fish> Fishes { get; private set; } = new List<Fish>();
+        public List<Seaweed> Seaweeds { get; private set; } = new List<Seaweed>();
 
         public void AddFish(Fish fish)
         {
@@ -21,95 +20,77 @@ namespace CSharquarium_v2.Models
             Seaweeds.Add(seaweed);
         }
 
-        public string Action()
+        public void Action()
         {
-            StringBuilder actions = new StringBuilder("");
             UpdateStatus();
-            actions.Append(Eating());
-            actions.Append(Clean(Fishes));
-            return actions.ToString();
+            DinerTime();
+            ToClean();
         }
 
-        private string Eating()
+        private void DinerTime()
         {
-            StringBuilder actions = new StringBuilder("");
-
-            List<Fish> FishesTemp = Fishes;
-
-            for (int i = 0; i < Fishes.Count; i++)
+            if (Fishes.Count > 1)
             {
-                Fish CurrentFish = FishesTemp[i];
-                Random Rng = new Random();
-                Fish RandomFish = FishesTemp[Rng.Next(FishesTemp.Count)];
-
-                if (CurrentFish.PV <= 5)
+                for (int i = 0; i < Fishes.Count; i++)
                 {
-                    if (CurrentFish is CarnivorousFish)
+                    Fish CurrentFish = Fishes[i];
+
+                    if (CurrentFish.PV > 0 && CurrentFish.PV <= 5)
                     {
-                        while (CurrentFish == RandomFish || CurrentFish.GetType() == RandomFish.GetType())
+                        if (CurrentFish is CarnivorousFish)
                         {
-                            RandomFish = FishesTemp[Rng.Next(FishesTemp.Count)];
+                            ((CarnivorousFish)CurrentFish).Eat(this);
                         }
-
-                        ((CarnivorousFish)CurrentFish).Eat(RandomFish);
-                        actions.Append($"{CurrentFish.Name} ate {RandomFish.Name} !\n");
-                    }
-                    else if (Seaweeds.Count > 0)
-                    {
-                        Seaweed seaweed = Seaweeds[Rng.Next(Seaweeds.Count)];
-                        ((HerbivorousFish)CurrentFish).Eat(seaweed);
-                        actions.Append($"{CurrentFish.Name} ate seaweed !\n");
+                        else if (Seaweeds.Count > 0)
+                        {
+                            ((HerbivorousFish)CurrentFish).Eat(this);
+                        }
                     }
                 }
             }
-
-            Fishes = FishesTemp;
-            return actions.ToString();
         }
 
-        public string Clean(List<Fish> fishes)
+        private void ToClean()
         {
-            List<Fish> FishesTemp = fishes;
-            List<Seaweed> SeaweedsTemp = Seaweeds;
-
-            StringBuilder cleaning = new StringBuilder("");
-            for (int i = 0; i < FishesTemp.Count; i++)
+            for (int i = Fishes.Count - 1; i >= 0; i--)
             {
-                Fish fish = FishesTemp[i];
-                if (fish.PV == 0)
+                Fish fish = Fishes[i];
+                if (fish.PV == 0 || fish.Age > 20)
                 {
-                    cleaning.Append($"{fish.Name} is dead !\n");
-                    fishes.Remove(fish);
+                    Console.WriteLine($"{fish.Name} is dead !");
+                    Fishes.Remove(fish);
                 }
             }
-            for (int i = 0; i < SeaweedsTemp.Count; i++)
+
+            for (int i = Seaweeds.Count - 1; i >= 0; i--)
             {
                 Seaweed seaweed = Seaweeds[i];
-                if (seaweed.PV == 0)
+                if (seaweed.PV == 0 || seaweed.Age > 20)
                 {
-                    cleaning.Append("A seaweed is dead !\n");
+                    Console.WriteLine("A seaweed is dead !");
                     Seaweeds.Remove(seaweed);
                 }
             }
-
-            return cleaning.ToString();
         }
 
-        public void UpdateStatus()
+        private void UpdateStatus()
         {
             for (int i = 0; i < Fishes.Count; i++)
             {
                 Fishes[i].RemovePV(1);
+                Fishes[i].AddAge(1);
             }
             for (int i = 0; i < Seaweeds.Count; i++)
             {
                 Seaweeds[i].AddPV(1);
+                Seaweeds[i].AddAge(1);
             }
         }
 
         public override string ToString()
         {
             string Result = "";
+
             Result += "Seaweed :\n";
             if (Seaweeds.Count > 0)
             {
@@ -121,6 +102,7 @@ namespace CSharquarium_v2.Models
             }
             else
                 Result += "\t--> No seaweeds into the aquarium\n";
+
             Result += "Fishes :\n";
             if (Fishes.Count > 0)
             {
