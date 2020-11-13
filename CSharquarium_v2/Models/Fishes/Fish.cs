@@ -1,6 +1,7 @@
 ﻿using CSharquarium_v2.Enums;
 using System;
 using System.Reflection;
+using System.Security;
 
 namespace CSharquarium_v2.Models.Fishes
 {
@@ -56,6 +57,10 @@ namespace CSharquarium_v2.Models.Fishes
                 // invoque les paramètres d'un nouvel objet
                 Child = (Fish)constructor.Invoke(new object[] { ChildName, ChildSex });
             }
+            catch (MemberAccessException e)
+            {
+                Console.WriteLine("MemberAccessException: " + e.Message);
+            }
             catch (ArgumentNullException e)
             {
                 Console.WriteLine("ArgumentNullException: " + e.Message);
@@ -63,6 +68,22 @@ namespace CSharquarium_v2.Models.Fishes
             catch (ArgumentException e)
             {
                 Console.WriteLine("ArgumentException: " + e.Message);
+            }
+            catch (TargetInvocationException e)
+            {
+                Console.WriteLine("TargetInvocationException: " + e.Message);
+            }
+            catch (TargetParameterCountException e)
+            {
+                Console.WriteLine("TargetParameterCountException" + e.Message);
+            }
+            catch (NotSupportedException e)
+            {
+                Console.WriteLine("NotSupportedException" + e.Message);
+            }
+            catch (SecurityException e)
+            {
+                Console.WriteLine("SecurityException: " + e.Message);
             }
             catch (Exception e)
             {
