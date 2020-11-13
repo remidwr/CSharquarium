@@ -39,7 +39,7 @@ namespace CSharquarium_v2.Models.Seaweeds
             Age /= 2;
             Seaweed MiniSeaweed = new Seaweed(Age);
             MiniSeaweed.PV = PV;
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Seaweed splits !");
             return MiniSeaweed;
         }

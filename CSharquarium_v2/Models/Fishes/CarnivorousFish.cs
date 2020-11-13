@@ -1,6 +1,4 @@
 ﻿using CSharquarium_v2.Enums;
-using System;
-using System.Collections.Generic;
 
 namespace CSharquarium_v2.Models.Fishes
 {
@@ -15,21 +13,10 @@ namespace CSharquarium_v2.Models.Fishes
         {
         }
 
-        public void Eat(Aquarium aquarium)
+        public void Eat(Fish fish)
         {
-            Random Rng = new Random();
-            List<Fish> Fishes = aquarium.Fishes;
-            int Random = Rng.Next(Fishes.Count);
-            Fish Fish = Fishes[Random];
-
-            if (Fish.Name.Equals(this.Name) || Fish.GetType().Equals(this.GetType()))
-            {
-                Fish.RemovePV(4);
-                this.AddPV(5);
-
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"{this.Name} ate {Fish.Name} !");
-            }
+            fish.RemovePV(4);
+            this.AddPV(5);
         }
     }
 }
