@@ -34,7 +34,7 @@ namespace CSharquarium_v2.Models.Fishes
             PV = PV > pv ? PV - pv : 0;
         }
 
-        public void AddAge(int age)
+        public virtual void AddAge(int age)
         {
             Age += age;
         }

@@ -13,5 +13,12 @@ namespace CSharquarium_v2.Models.Fishes.Carnivorous
             : base(name, sex, age)
         {
         }
+
+        public override void AddAge(int age)
+        {
+            base.AddAge(age);
+            if (Age >= 10)
+                Sex = Sex.Equals(Sex.Male) ? Sex.Female : Sex.Male;
+        }
     }
 }

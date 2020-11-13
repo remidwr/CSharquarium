@@ -1,4 +1,5 @@
-﻿using CSharquarium_v2.Models.Fishes;
+﻿using CSharquarium_v2.Interfaces;
+using CSharquarium_v2.Models.Fishes;
 using CSharquarium_v2.Models.Seaweeds;
 using System;
 using System.Collections.Generic;
@@ -28,13 +29,13 @@ namespace CSharquarium_v2.Models
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Fishes are eating or making love...");
             Thread.Sleep(500);
-            DinerTime();
+            LoveAndDinerTime();
             ToClean(Fishes);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
         }
 
-        private void DinerTime()
+        private void LoveAndDinerTime()
         {
             List<Fish> HungryFishes = new List<Fish>(Fishes);
             List<Fish> FishesInLove = new List<Fish>(Fishes);
@@ -55,6 +56,11 @@ namespace CSharquarium_v2.Models
                         && FishesInLove.Contains(CurrentFish) && FishesInLove.Contains(TargetFish)
                         && CurrentFish.GetType() == TargetFish.GetType())
                     {
+                        if (CurrentFish is Opportunistic
+                            && CurrentFish.Sex == TargetFish.Sex)
+                        {
+                            ((Opportunistic)CurrentFish).ChangeSex();
+                        }
                         if (CurrentFish.Sex != TargetFish.Sex)
                         {
                             Fish Child = CurrentFish.MakeLove(CurrentFish.GetType(), CurrentFish.Name, TargetFish.Name);
