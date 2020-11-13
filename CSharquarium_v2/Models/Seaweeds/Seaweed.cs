@@ -1,4 +1,6 @@
-﻿namespace CSharquarium_v2.Models.Seaweeds
+﻿using System;
+
+namespace CSharquarium_v2.Models.Seaweeds
 {
     public class Seaweed
     {
@@ -17,8 +19,6 @@
         public void AddPV(int pv)
         {
             PV += pv;
-            if (PV > 10)
-                PV = 10;
         }
 
         public void RemovePV(int pv)
@@ -31,6 +31,17 @@
         public void AddAge(int age)
         {
             Age += age;
+        }
+
+        public Seaweed Repoduction()
+        {
+            PV /= 2;
+            Age /= 2;
+            Seaweed MiniSeaweed = new Seaweed(Age);
+            MiniSeaweed.PV = PV;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Seaweed splits !");
+            return MiniSeaweed;
         }
 
         public override string ToString()

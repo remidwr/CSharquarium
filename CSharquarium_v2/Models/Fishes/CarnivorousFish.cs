@@ -19,18 +19,17 @@ namespace CSharquarium_v2.Models.Fishes
         {
             Random Rng = new Random();
             List<Fish> Fishes = aquarium.Fishes;
-            Fish Fish;
+            int Random = Rng.Next(Fishes.Count);
+            Fish Fish = Fishes[Random];
 
-            do
+            if (Fish.Name.Equals(this.Name) || Fish.GetType().Equals(this.GetType()))
             {
-                int Random = Rng.Next(Fishes.Count);
-                Fish = Fishes[Random];
-            } while (Fish.Name.Equals(this.Name) || Fish.GetType().Equals(this.GetType()));
+                Fish.RemovePV(4);
+                this.AddPV(5);
 
-            Fish.RemovePV(4);
-            this.AddPV(5);
-
-            Console.WriteLine($"{this.Name} ate {Fish.Name} !");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"{this.Name} ate {Fish.Name} !");
+            }
         }
     }
 }

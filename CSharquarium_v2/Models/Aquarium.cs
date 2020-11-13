@@ -25,53 +25,79 @@ namespace CSharquarium_v2.Models
         {
             UpdateStatus();
 
-            Console.WriteLine("Fishes are eating...");
-            Thread.Sleep(500);
-            Console.ForegroundColor = ConsoleColor.Green;
-            DinerTime();
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine();
-
-            Console.WriteLine("Cleaning the aquarium...");
+            Console.WriteLine("Fishes are eating or making love...");
             Thread.Sleep(500);
-            Console.ForegroundColor = ConsoleColor.Red;
-            ToClean();
+            DinerTime();
+            ToClean(Fishes);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
         }
 
         private void DinerTime()
         {
+            List<Fish> HungryFishes = new List<Fish>(Fishes);
+            List<Fish> FishesInLove = new List<Fish>(Fishes);
+
             if (Fishes.Count > 1)
             {
                 for (int i = 0; i < Fishes.Count; i++)
                 {
                     Fish CurrentFish = Fishes[i];
+                    Random Rng = new Random();
+                    int Target = Rng.Next(Fishes.Count);
+                    Fish TargetFish = Fishes[Target];
 
-                    if (CurrentFish.PV > 0 && CurrentFish.PV <= 5)
+                    if (CurrentFish == TargetFish)
+                        continue;
+
+                    if (CurrentFish.PV > 5
+                        && FishesInLove.Contains(CurrentFish) && FishesInLove.Contains(TargetFish)
+                        && CurrentFish.GetType() == TargetFish.GetType())
+                    {
+                        if (CurrentFish.Sex != TargetFish.Sex)
+                        {
+                            Fish Child = CurrentFish.MakeLove(CurrentFish.GetType(), CurrentFish.Name, TargetFish.Name);
+                            HungryFishes.Add(Child);
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.WriteLine($"{CurrentFish.Name} and {TargetFish.Name} had a baby ({Child.Name}) !");
+                            FishesInLove.Remove(CurrentFish);
+                            FishesInLove.Remove(TargetFish);
+                        }
+                    }
+
+                    if (CurrentFish.PV > 0 && CurrentFish.PV <= 5
+                        && HungryFishes.Contains(CurrentFish))
                     {
                         if (CurrentFish is CarnivorousFish)
                         {
-                            ((CarnivorousFish)CurrentFish).Eat(this);
+                            if (HungryFishes.Contains(TargetFish))
+                                ((CarnivorousFish)CurrentFish).Eat(this);
                         }
                         else if (Seaweeds.Count > 0)
                         {
                             ((HerbivorousFish)CurrentFish).Eat(this);
                         }
                     }
+
+                    ToClean(HungryFishes);
                 }
+
+                Fishes = HungryFishes;
             }
         }
 
-        private void ToClean()
+        private void ToClean(List<Fish> fishes)
         {
-            for (int i = Fishes.Count - 1; i >= 0; i--)
+            for (int i = fishes.Count - 1; i >= 0; i--)
             {
-                Fish fish = Fishes[i];
+                Fish fish = fishes[i];
                 if (fish.PV == 0 || fish.Age > 20)
                 {
+
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"{fish.Name} is dead !");
-                    Fishes.Remove(fish);
+                    fishes.Remove(fish);
                 }
             }
 
@@ -80,6 +106,8 @@ namespace CSharquarium_v2.Models
                 Seaweed seaweed = Seaweeds[i];
                 if (seaweed.PV == 0 || seaweed.Age > 20)
                 {
+
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("A seaweed is dead !");
                     Seaweeds.Remove(seaweed);
                 }
@@ -88,15 +116,22 @@ namespace CSharquarium_v2.Models
 
         private void UpdateStatus()
         {
+            List<Seaweed> seaweeds = new List<Seaweed>(Seaweeds);
             for (int i = 0; i < Fishes.Count; i++)
             {
                 Fishes[i].RemovePV(1);
                 Fishes[i].AddAge(1);
             }
-            for (int i = 0; i < Seaweeds.Count; i++)
+            for (int i = 0; i < seaweeds.Count; i++)
             {
-                Seaweeds[i].AddPV(1);
-                Seaweeds[i].AddAge(1);
+                Seaweed Seaweed = Seaweeds[i];
+                Seaweed.AddPV(1);
+                Seaweed.AddAge(1);
+                if (Seaweed.PV >= 10)
+                {
+                    Seaweed MiniSeaweed = Seaweed.Repoduction();
+                    Seaweeds.Add(MiniSeaweed);
+                }
             }
         }
 

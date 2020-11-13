@@ -28,6 +28,7 @@ namespace CSharquarium_v2.Models.Fishes
             Seaweed.RemovePV(2);
             this.AddPV(3);
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{this.Name} ate a seaweed !");
         }
     }

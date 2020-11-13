@@ -14,16 +14,13 @@ namespace CSharquarium_v2
             Aquarium Aquarium = new Aquarium();
 
             Aquarium.AddFish(new Tuna("Carl", Sex.Male));
-            Aquarium.AddFish(new ClownFish("Lili", Sex.Female));
+            Aquarium.AddFish(new Grouper("Azizam", Sex.Female));
+            Aquarium.AddFish(new ClownFish("Lilo", Sex.Male));
             Aquarium.AddFish(new ClownFish("Robertine", Sex.Female));
             Aquarium.AddFish(new Sole("Kiwi", Sex.Male));
             Aquarium.AddFish(new Bar("Nils", Sex.Male));
-            Aquarium.AddFish(new Bar("Nila", Sex.Female));
-            Aquarium.AddFish(new Bar("Alex", Sex.Male));
             Aquarium.AddFish(new Bar("Helene", Sex.Female));
-            Aquarium.AddSeaweed(new Seaweed());
-            Aquarium.AddSeaweed(new Seaweed());
-            Aquarium.AddSeaweed(new Seaweed());
+            Aquarium.AddFish(new Carp("Balou", Sex.Male));
             Aquarium.AddSeaweed(new Seaweed());
 
             Console.Write(Aquarium);
