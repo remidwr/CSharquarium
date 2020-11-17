@@ -59,10 +59,10 @@ namespace CSharquarium_v2.Models
                         && FishesInLove.Contains(TargetFish)
                         && CurrentFish.GetType() == TargetFish.GetType())
                     {
-                        if (CurrentFish is Opportunistic
+                        if (CurrentFish is IOpportunistic
                             && CurrentFish.Sex == TargetFish.Sex)
                         {
-                            ((Opportunistic)CurrentFish).ChangeSex();
+                            ((IOpportunistic)CurrentFish).ChangeSex();
                         }
                         if (CurrentFish.Sex != TargetFish.Sex)
                         {

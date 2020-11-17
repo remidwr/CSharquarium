@@ -3,7 +3,7 @@ using CSharquarium_v2.Interfaces;
 
 namespace CSharquarium_v2.Models.Fishes.Carnivorous
 {
-    public class ClownFish : CarnivorousFish, Opportunistic
+    public class ClownFish : CarnivorousFish, IOpportunistic
     {
         public ClownFish(string name, Sex sex)
             : base(name, sex)

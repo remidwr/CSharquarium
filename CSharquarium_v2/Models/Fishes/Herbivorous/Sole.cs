@@ -3,7 +3,7 @@ using CSharquarium_v2.Interfaces;
 
 namespace CSharquarium_v2.Models.Fishes.Herbivorous
 {
-    public class Sole : HerbivorousFish, Opportunistic
+    public class Sole : HerbivorousFish, IOpportunistic
     {
         public Sole(string name, Sex sex)
             : base(name, sex)
