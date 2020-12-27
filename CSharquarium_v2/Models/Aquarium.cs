@@ -3,6 +3,7 @@ using CSharquarium_v2.Models.Fishes;
 using CSharquarium_v2.Models.Seaweeds;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 
 namespace CSharquarium_v2.Models
@@ -25,11 +26,11 @@ namespace CSharquarium_v2.Models
         public void Action()
         {
             UpdateStatus();
+            ToClean(Fishes);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Fishes are eating or making love...");
             Thread.Sleep(500);
             LoveAndDinerTime();
-            ToClean(Fishes);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
         }
@@ -79,12 +80,6 @@ namespace CSharquarium_v2.Models
                     {
                         if (CurrentFish is CarnivorousFish)
                         {
-                            while (CurrentFish.GetType() == TargetFish.GetType() && DifferentTypesExist(HungryFishes, CurrentFish))
-                            {
-                                Target = Rng.Next(HungryFishes.Count);
-                                TargetFish = HungryFishes[Target];
-                            }
-
                             if (CurrentFish.GetType() != TargetFish.GetType())
                             {
                                 ((CarnivorousFish)CurrentFish).Eat(TargetFish);
@@ -135,17 +130,6 @@ namespace CSharquarium_v2.Models
             }
         }
 
-        private bool DifferentTypesExist(List<Fish> fishes, Fish fish)
-        {
-            for (int i = 0; i < fishes.Count; i++)
-            {
-                if (fish.GetType() != fishes[i].GetType())
-                    return true;
-            }
-
-            return false;
-        }
-
         private void UpdateStatus()
         {
             List<Seaweed> seaweeds = new List<Seaweed>(Seaweeds);
@@ -169,33 +153,33 @@ namespace CSharquarium_v2.Models
 
         public override string ToString()
         {
-            string Result = "";
+            StringBuilder Result = new StringBuilder();
 
-            Result += "Seaweed :\n";
+            Result.Append("Seaweed :\n");
             if (Seaweeds.Count > 0)
             {
-                Result += $"\t--> {Seaweeds.Count} seaweed(s)\n";
+                Result.Append($"\t--> {Seaweeds.Count} seaweed(s)\n");
                 for (int i = 0; i < Seaweeds.Count; i++)
                 {
-                    Result += $"\t\t- Seaweed n°{i + 1} | {Seaweeds[i].ToString()}\n";
+                    Result.Append($"\t\t- Seaweed n°{i + 1} | {Seaweeds[i]}\n");
                 }
             }
             else
-                Result += "\t--> No seaweeds into the aquarium\n";
+                Result.Append("\t--> No seaweeds into the aquarium\n");
 
-            Result += "Fishes :\n";
+            Result.Append("Fishes :\n");
             if (Fishes.Count > 0)
             {
-                Result += $"\t--> {Fishes.Count} fishe(s)\n";
+                Result.Append($"\t--> {Fishes.Count} fishe(s)\n");
                 for (int i = 0; i < Fishes.Count; i++)
                 {
-                    Result += $"\t\t- Fish n°{i + 1} | {Fishes[i].ToString()}\n";
+                    Result.Append($"\t\t- Fish n°{i + 1} | {Fishes[i]}\n");
                 }
             }
             else
-                Result += "\t--> No fishes into the aquarium\n";
+                Result.Append("\t--> No fishes into the aquarium\n");
 
-            return Result;
+            return Result.ToString();
         }
     }
 }

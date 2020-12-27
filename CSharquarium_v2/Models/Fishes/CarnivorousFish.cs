@@ -9,7 +9,8 @@ namespace CSharquarium_v2.Models.Fishes
         {
         }
 
-        protected CarnivorousFish(string name, Sex sex, int age) : base(name, sex, age)
+        protected CarnivorousFish(string name, Sex sex, int age) 
+            : base(name, sex, age)
         {
         }
 
