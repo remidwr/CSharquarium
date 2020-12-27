@@ -13,18 +13,11 @@ namespace CSharquarium_v2
 
         static void Main(string[] args)
         {
-            AddFishAndSeaweed();
-
-            Console.Write(Aquarium);
-
-            while (!Console.ReadLine().ToUpper().Equals("Q"))
-            {
-                Aquarium.Action();
-                Console.Write(Aquarium);
-            }
+            AddFishesAndSeaweeds();
+            LiveAquarium();
         }
 
-        private static void AddFishAndSeaweed()
+        private static void AddFishesAndSeaweeds()
         {
             //Aquarium.AddFish(new Tuna("Carlito", Sex.Male, 5));
             Aquarium.AddFish(new Tuna("Lila", Sex.Female, 7));
@@ -40,6 +33,17 @@ namespace CSharquarium_v2
             Aquarium.AddSeaweed(new Seaweed());
             Aquarium.AddSeaweed(new Seaweed());
             Aquarium.AddSeaweed(new Seaweed());
+        }
+
+        private static void LiveAquarium()
+        {
+            Console.Write(Aquarium);
+
+            while (!Console.ReadLine().ToUpper().Equals("Q"))
+            {
+                Aquarium.Action();
+                Console.Write(Aquarium);
+            }
         }
     }
 }

@@ -29,7 +29,6 @@ namespace CSharquarium_v2.Models
             ToClean(Fishes);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Fishes are eating or making love...");
-            Thread.Sleep(500);
             LoveAndDinerTime();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
