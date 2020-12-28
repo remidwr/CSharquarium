@@ -1,4 +1,5 @@
 ﻿using CSharquarium_v2.Enums;
+using CSharquarium_v2.Models.Seaweeds;
 using System;
 using System.Reflection;
 using System.Security;
@@ -9,13 +10,14 @@ namespace CSharquarium_v2.Models.Fishes
     {
         public string Name { get; private set; }
         public Sex Sex { get; protected set; }
-        public int PV { get; protected set; } = 10;
+        public int PV { get; protected set; }
         public int Age { get; protected set; }
 
         protected Fish(string name, Sex sex)
         {
             Name = name;
             Sex = sex;
+            PV = 10;
         }
 
         protected Fish(string name, Sex sex, int age)

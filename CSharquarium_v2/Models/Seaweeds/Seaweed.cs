@@ -4,14 +4,16 @@ namespace CSharquarium_v2.Models.Seaweeds
 {
     public class Seaweed
     {
-        public int PV { get; private set; } = 10;
+        public int PV { get; private set; }
         public int Age { get; private set; }
 
         public Seaweed()
         {
+            PV = 10;
         }
 
-        public Seaweed(int age)
+        public Seaweed(int age) 
+            : this()
         {
             Age = age;
         }

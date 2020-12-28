@@ -94,10 +94,8 @@ namespace CSharquarium_v2.Models
                             Console.WriteLine($"{CurrentFish.Name} ate {TargetFish.Name} !");
                         }
                     }
-
                     ToClean(HungryFishes);
                 }
-
                 Fishes = HungryFishes;
             }
         }
@@ -109,7 +107,6 @@ namespace CSharquarium_v2.Models
                 Fish fish = fishes[i];
                 if (fish.PV == 0 || fish.Age > 20)
                 {
-
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine($"{fish.Name} is dead !");
                     fishes.Remove(fish);
@@ -121,7 +118,6 @@ namespace CSharquarium_v2.Models
                 Seaweed seaweed = Seaweeds[i];
                 if (seaweed.PV == 0 || seaweed.Age > 20)
                 {
-
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("A seaweed is dead !");
                     Seaweeds.Remove(seaweed);
